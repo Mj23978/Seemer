@@ -8,11 +8,11 @@ class PostItem extends StatefulWidget {
 
 
   PostItem({
-    Key key,
-    @required this.dp,
-    @required this.name,
-    @required this.time,
-    @required this.img
+    Key? key,
+    required this.dp,
+    required this.name,
+    required this.time,
+    required this.img
   }) : super(key: key);
   @override
   _PostItemState createState() => _PostItemState();

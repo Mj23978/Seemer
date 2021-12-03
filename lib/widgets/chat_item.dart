@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../views/conversation_view/conversation_view.dart';
-
 class ChatItem extends StatefulWidget {
   final String dp;
   final String name;
@@ -11,13 +9,13 @@ class ChatItem extends StatefulWidget {
   final int counter;
 
   ChatItem({
-    Key key,
-    @required this.dp,
-    @required this.name,
-    @required this.time,
-    @required this.msg,
-    @required this.isOnline,
-    @required this.counter,
+    Key? key,
+    required this.dp,
+    required this.name,
+    required this.time,
+    required this.msg,
+    required this.isOnline,
+    required this.counter,
   }) : super(key: key);
 
   @override
@@ -109,13 +107,13 @@ class _ChatItemState extends State<ChatItem> {
           ],
         ),
         onTap: () {
-          Navigator.of(context, rootNavigator: true).push(
-            MaterialPageRoute(
-              builder: (BuildContext context) {
-                return ConversationView();
-              },
-            ),
-          );
+          // Navigator.of(context, rootNavigator: true).push(
+          //   MaterialPageRoute(
+          //     builder: (BuildContext context) {
+          //       return ConversationView();
+          //     },
+          //   ),
+          // );
         },
       ),
     );

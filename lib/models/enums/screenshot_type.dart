@@ -1,4 +1,0 @@
-enum ScreenShotType{
-  download,
-  share
-}

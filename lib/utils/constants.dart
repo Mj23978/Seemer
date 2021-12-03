@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
+import '../models/enums.dart';
 
 class Constants {
-  static Color lightPrimary = Color(0xfffcfcff);
-  static Color darkPrimary = Colors.black;
-  static Color lightAccent = Colors.blue;
-  static Color darkAccent = Colors.blueAccent;
-  static Color lightBG = Color(0xfffcfcff);
-  static Color darkBG = Colors.black;
-  static Color badgeColor = Colors.red;
-
-  // TODO: Replace this with your firebase project URL
+  static const String endpoint = "http://localhost/v1";
+  static const String transactionCollectionID = "61772767d6cc5";
+  static const String callLogsCollectionID = "61776a3b31b1c";
+  static const String homeChatsCollectionID = "617ac672305da";
+  static const String chatsCollectionID = "617b59e2bd30d";
+  static const String messagesCollectionID = "617b5ac47052f";
+  static const String projectId = "61771677862e2";
   static const String firebaseProjectURL =
-      'https://flutter-starter-93823.firebaseapp.com/';
-  static const String androidMinimumVersion = "21";
-  static const String AppName = "com.fluttensor.my_chat";
+      'https://skype-clone-251ce.firebaseio.com/';
+  static const String androidMinimumVersion = "20";
+  static const String AppName = "com.example.seemer";
+  static const AuthServiceType authServiceType = AuthServiceType.firebase;
 }
 
 class NotificationConst {
@@ -21,6 +21,3 @@ class NotificationConst {
   static const channelName = 'Test Notifications';
   static const channelDescription = 'Test Notification Channel';
 }
-
-// ignore: non_constant_identifier_names
-String APP_PROXY;

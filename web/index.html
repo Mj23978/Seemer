@@ -1,10 +1,105 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+  <base href="$FLUTTER_BASE_HREF">
+
   <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="A new Flutter project.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="my_chat">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
   <title>my_chat</title>
+  <link rel="manifest" href="manifest.json">
 </head>
 <body>
-  <script src="main.dart.js" type="application/javascript"></script>
+  <script src="/__/firebase/8.6.1/firebase-app.js"></script>
+  <script src="/__/firebase/8.6.1/firebase-analytics.js"></script>
+  <script src="/__/firebase/8.6.1/firebase-messaging.js"></script>
+  <script src="/__/firebase/init.js"></script>
+  <script type="module">
+    import { initalizeApp } from "https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js";
+    // import "https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js";
+    // import "https://www.gstatic.com/firebasejs/8.6.1/firebase-messaging.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB2FYS1XK_YjJTacAG-IbQhYCIwZHSnLAU",
+      authDomain: "skype-clone-251ce.firebaseapp.com",
+      databaseURL: "https://skype-clone-251ce.firebaseio.com",
+      projectId: "skype-clone-251ce",
+      storageBucket: "skype-clone-251ce.appspot.com",
+      messagingSenderId: "147410469788",
+      appId: "1:147410469788:web:84ff98f02dd213d3383e59",
+      measurementId: "G-VKCSDGS4VW"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    // const analytics = getAnalytics(app);
+  </script>
+  <script>
+    var serviceWorkerVersion = null;
+    var scriptLoaded = false;
+    function loadMainDartJs() {
+      if (scriptLoaded) {
+        return;
+      }
+      scriptLoaded = true;
+      var scriptTag = document.createElement('script');
+      scriptTag.src = 'main.dart.js';
+      scriptTag.type = 'application/javascript';
+      document.body.append(scriptTag);
+    }
+
+    if ('serviceWorker' in navigator) {
+      // Service workers are supported. Use them.
+      window.addEventListener('load', function () {
+        // Wait for registration to finish before dropping the <script> tag.
+        // Otherwise, the browser will load the script multiple times,
+        // potentially different versions.
+        var serviceWorkerUrl = 'flutter_service_worker.js?v=' + serviceWorkerVersion;
+        navigator.serviceWorker.register(serviceWorkerUrl)
+          .then((reg) => {
+            function waitForActivation(serviceWorker) {
+              serviceWorker.addEventListener('statechange', () => {
+                if (serviceWorker.state == 'activated') {
+                  console.log('Installed new service worker.');
+                  loadMainDartJs();
+                }
+              });
+            }
+            if (!reg.active && (reg.installing || reg.waiting)) {
+              // No active web worker and we have installed or are installing
+              // one for the first time. Simply wait for it to activate.
+              waitForActivation(reg.installing || reg.waiting);
+            } else if (!reg.active.scriptURL.endsWith(serviceWorkerVersion)) {
+              console.log('New service worker available.');
+              reg.update();
+              waitForActivation(reg.installing);
+            } else {
+              // Existing service worker is still good.
+              console.log('Loading app from service worker.');
+              loadMainDartJs();
+            }
+          });
+
+        setTimeout(() => {
+          if (!scriptLoaded) {
+            console.warn(
+              'Failed to load app from service worker. Falling back to plain <script> tag.',
+            );
+            loadMainDartJs();
+          }
+        }, 4000);
+      });
+    } else {
+      loadMainDartJs();
+    }
+  </script>
 </body>
 </html>

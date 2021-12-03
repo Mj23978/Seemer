@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 class IconBadge extends StatefulWidget {
 
   final IconData icon;
-  final double size;
-  final Color color;
+  final double? size;
+  final Color? color;
 
-  IconBadge({Key key, @required this.icon, this.size, this.color})
+  IconBadge({Key? key, required this.icon, this.size, this.color})
       : super(key: key);
 
   @override

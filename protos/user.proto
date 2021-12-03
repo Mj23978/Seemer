@@ -1,0 +1,93 @@
+syntax = "proto3";
+
+package api.proc;
+
+import "protobuf/field_mask.proto";
+import "protobuf/empty.proto";
+
+option go_package = ".;api";
+
+message User {
+  string id = 1;
+  string username = 2;
+  string password = 3;
+  string email = 4;
+  string token = 5;
+  uint32 level = 6;
+  uint32 win = 7;
+  uint32 lose = 8;
+  StatusType status = 9;
+  string photo_path = 10;
+}
+
+message UserPublic {
+  string username = 1;
+  string photo_path = 2;
+  uint32 level = 3;
+  uint32 win = 4;
+  uint32 lose = 5;
+  StatusType status = 6;
+}
+
+message UP {
+  string username = 2;
+  string password = 3;
+}
+
+enum StatusType {
+  Online = 0;
+  Away = 1;
+  Playing = 2;
+  Offline = 3;
+}
+
+service UserService {
+
+  rpc GetUser(GetUserRequest) returns (User) {}
+
+  rpc SignIn(SignInRequest) returns (SignInResponse) {}
+
+  rpc SignUp(SignUpRequest) returns (Token) {}
+
+  rpc UpdateUser(UpdateUserRequest) returns (google.protobuf.Empty) {}
+
+  rpc RefreshToken(RefreshTokenRequest) returns (Token) {}
+
+  rpc Status(StatusRequest) returns (google.protobuf.Empty) {}
+}
+
+message GetUserRequest { string id = 1; }
+
+message CreateUserRequest { User user = 1; }
+
+message SignUpRequest { User user = 1; }
+
+message Token {
+  string token = 1;
+  string refresh_token = 2;
+}
+
+message SignInRequest { User user = 1; }
+
+message RefreshTokenRequest {
+  oneof id {
+    UP user = 1;
+    string refresh_token = 2;
+  }
+}
+
+message SignInResponse {
+  User user = 1;
+  string token = 2;
+  string refresh_token = 3;
+}
+
+message UpdateUserRequest {
+  User user = 1;
+  google.protobuf.FieldMask update_mask = 2;
+}
+
+message StatusRequest {
+  string id = 1;
+  StatusType status = 2;
+}

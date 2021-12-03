@@ -75,7 +75,6 @@ final enigmaBlack = Color(0xFF1E1E1E);
 final enigmaBlue = Color(0xFF007ACC);
 final enigmaGreen = Color(0xFF27C784);
 final enigmaWhite = Color(0xFFE0E0E0);
-const SENTRY_URL = 'https://4a9f73f28d174780b1b031bbd96569b8@sentry.io/2091760';
 const IS_TOKEN_GENERATED = 'isTokenGenerated';
 const NOTIFICATION_TOKENS = 'notificationTokens';
 const PHOTO_URL = 'photoUrl';

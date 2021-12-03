@@ -3,39 +3,32 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../views/story_view/story_view.dart';
-
 class ThumbnailWidget extends StatefulWidget {
   final double size;
   final String imagePath;
 
-  const ThumbnailWidget({Key key, @required this.imagePath, this.size = 32.0})
+  const ThumbnailWidget({Key? key, required this.imagePath, this.size = 32.0})
       : super(key: key);
   @override
   State<StatefulWidget> createState() => _ThumbnailWidgetState();
 }
 
 class _ThumbnailWidgetState extends State<ThumbnailWidget> {
-  String thumb;
-  @override
-  void initState() {
-    super.initState();
-  }
 
   Future getImage() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    var image = await ImagePicker.platform.pickImage(source: ImageSource.gallery);
     if (image == null) {
       return;
     }
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => StoryView(
-              imagePath: image.path,
-            )));
+    // Navigator.of(context).push(MaterialPageRoute(
+    //     builder: (context) => StoryView(
+    //           imagePath: image.path,
+    //         )));
   }
 
   @override
   Widget build(BuildContext context) {
-    thumb = widget.imagePath;
+    final thumb = widget.imagePath;
     return GestureDetector(
       onTap: getImage,
       child: Container(

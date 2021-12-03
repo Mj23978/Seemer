@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package api.proc;
+
+option go_package = ".;api";
+option java_package = "com.github.mj23978.mafia.pb";
+option java_multiple_files = true;
+
+import "user.proto";
+
+message ChannelReq {
+
+  message Channel {
+    string name = 1;
+    ChannelAction action = 2;
+    bool isLobby = 3;
+    bool isLobbyReq = 4;
+  }
+
+  enum ChannelAction {
+    Add = 0;
+    Delete = 1;
+  }
+
+  message Login {
+    string username = 1;
+
+    string password = 2;
+  }
+
+  oneof req {
+    Login login = 1;
+    StatusType status = 2;
+    Channel channel = 3;
+  }
+}
+
+message Channel {
+  string name = 1;
+  string change = 2;
+}
+
+message LobbyResponse {
+  string name = 1;
+  string change = 2;
+  UserPublic payload = 3;
+}
+
+message LobbyReqResponse {
+  string name = 1;
+  LobbyAction action = 2;
+}
+
+enum LobbyAction {
+  Accept = 0;
+  Denied = 1;
+}
+
+message ChannelRes {
+  oneof res {
+    string error = 1;
+    Channel channel = 2;
+    LobbyResponse lobby_res = 3;
+    LobbyReqResponse lobby_req_res = 4;
+  }
+}
+
+service AppService {
+  rpc Channel(stream ChannelReq) returns (stream ChannelRes) {};
+}
