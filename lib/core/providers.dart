@@ -1,5 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:my_chat/network/helpers/grpc_repo.dart';
 
 import '../config/db/user_hive.dart';
 import 'app_provider.dart';
@@ -20,6 +21,9 @@ final userHiveProvider = Provider<UserHive>((ref) => UserHive());
 
 final authProvider = Provider<AuthProvider>((ref) =>
     AuthProvider(ref.read(userHiveProvider), ref.read(appProvider)));
+
+final grpcProvider = Provider<GRPCRepo>((ref) =>
+    GRPCRepo(logger: ref.read(loggerProvider("GRPC Repo")), app: ref.read(appProvider)));
 
 final splashProvider =
     StateNotifierProvider<SplashNotifier, SplashState>((ref) {

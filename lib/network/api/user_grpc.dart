@@ -12,22 +12,22 @@ import '../helpers/grpc_base.dart';
 class UserGrpcClient extends GRPCBase {
   late UserServiceClient stub;
   Logger logger;
+  Iterable<ClientInterceptor>? interceptors;
 
   UserGrpcClient({
     required this.logger,
     required ClientChannel channel,
     required CallOptions options,
     required Box configBox,
+    this.interceptors,
   }) : super(channel: channel, options: options, configBox: configBox);
 
-  @override
-  Future<void> init() async {
+  @override  Future<void> init() async {
     try {
       stub = UserServiceClient(
         channel,
-        options: CallOptions(
-          timeout: const Duration(seconds: 30),
-        ),
+        options: options,
+        interceptors: interceptors,
       );
     } catch (err) {
       logger.e(err);

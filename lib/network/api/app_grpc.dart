@@ -10,13 +10,12 @@ import '../helpers/grpc_base.dart';
 
 
 class AppGrpcClient extends GRPCBase {
+
   late AppServiceClient stub;
+  final StreamController<ChannelReq> appReqController;
+  final StreamController<ChannelRes> appResController;
+  final Iterable<ClientInterceptor>? interceptors;
   bool isListening = false;
-  Function? refreshTokenFunc;
-  StreamController<ChannelReq> appReqController =
-      StreamController<ChannelReq>();
-  StreamController<ChannelRes> appResController =
-      StreamController<ChannelRes>();
   Logger logger;
 
   AppGrpcClient({
@@ -24,17 +23,22 @@ class AppGrpcClient extends GRPCBase {
     required ClientChannel channel,
     required CallOptions options,
     required Box configBox,
-  }) : super(channel: channel, options: options, configBox: configBox);
+    this.interceptors,
+    StreamController<ChannelReq>? appReqController,
+    StreamController<ChannelRes>? appResController,
+  }) : appReqController = appReqController ?? StreamController<ChannelReq>(), 
+  appResController = appResController ?? StreamController<ChannelRes>(), 
+  super(channel: channel, options: options, configBox: configBox);
 
   @override
   Future<void> init() async {
     try {
       stub = AppServiceClient(
         channel,
-        options: CallOptions(
-          timeout: const Duration(seconds: 30),
-        ),
+        options: options,
+        interceptors: interceptors,
       );
+      
     } catch (err) {
       logger.e(err);
     }

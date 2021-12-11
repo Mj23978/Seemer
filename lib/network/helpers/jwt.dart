@@ -20,7 +20,7 @@ class Jwt {
 
   static bool isNearToExpire(int timeMiliseconds) {
     final time = DateTime.fromMillisecondsSinceEpoch(
-      timeMiliseconds - (120 * 1000), // Expiration Date + 3 Minutes
+      timeMiliseconds - (120 * 1000), // Expiration Date + 2 Minutes
     );
     return time.isBefore(DateTime.now());
   }

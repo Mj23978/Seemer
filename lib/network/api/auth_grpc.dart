@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grpc/grpc.dart';
 import 'package:hive/hive.dart';
 import 'package:logger/logger.dart';
+import 'package:my_chat/network/helpers/grpc_repo.dart';
 
 import '../../generated/user.pb.dart';
 import '../../generated/user.pbgrpc.dart';
@@ -9,7 +10,9 @@ import '../helpers/grpc_base.dart';
 
 
 class AuthGrpcClient extends GRPCBase {
+
   late UserServiceClient stub;
+  Iterable<ClientInterceptor>? interceptors;
   Logger logger;
 
   AuthGrpcClient({
@@ -17,6 +20,7 @@ class AuthGrpcClient extends GRPCBase {
     required ClientChannel channel,
     required CallOptions options,
     required Box configBox,
+    this.interceptors,
   }) : super(channel: channel, options: options, configBox: configBox);
 
   @override
@@ -24,9 +28,8 @@ class AuthGrpcClient extends GRPCBase {
     try {
       stub = UserServiceClient(
         channel,
-        options: CallOptions(
-          timeout: const Duration(seconds: 30),
-        ),
+        options: options,
+        interceptors: [AuthInterceptor(configBox, logger, refreshToken) ,...(interceptors ?? [])],
       );
     } catch (err) {
       logger.e(err);
@@ -91,7 +94,7 @@ class AuthGrpcClient extends GRPCBase {
       if (err.runtimeType == GrpcError) {
         GrpcError error = err as GrpcError;
         if (error.message == "Invalid Refresh Token") {
-          print("Invalid Token");
+          logger.i("Invalid Token");
           result.add("try");
         }
       } else {
